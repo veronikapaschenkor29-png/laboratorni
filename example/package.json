@@ -1,0 +1,17 @@
+{
+  "name": "generators-example",
+  "version": "1.0.0",
+  "description": "Example project demonstrating usage of generators-lib",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "demo:integers": "node examples/random-integers.js",
+    "demo:floats": "node examples/random-floats.js",
+    "demo:custom": "node examples/custom-processing.js"
+  },
+  "author": "veronikapaschenkor29-png",
+  "license": "MIT",
+  "dependencies": {
+    "generators-lib": "file:../generators-lib"
+  }
+}
