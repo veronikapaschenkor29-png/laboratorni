@@ -98,6 +98,41 @@ function createMemoizedFunction(fn, options = {}) {
         }
     }
 
+    function isAsync() {
+        return fn.constructor.name === 'AsyncFunction' || fn[Symbol.toStringTag] === 'AsyncFunction';
+    }
+
+    if (isAsync()) {
+        return async function memoized(...args) {
+            evictExpired();
+
+            const key = getCacheKey(args);
+
+            if (cache.has(key)) {
+                accessOrder++;
+                accessHistory.set(key, accessOrder);
+                const count = (accessCounts.get(key) || 0) + 1;
+                accessCounts.set(key, count);
+                return cache.get(key);
+            }
+
+            const result = await fn(...args);
+
+            enforceEvictionPolicy();
+
+            accessOrder++;
+            cache.set(key, result);
+            accessHistory.set(key, accessOrder);
+            accessCounts.set(key, 1);
+
+            if (ttl !== null) {
+                expiryTimes.set(key, Date.now() + ttl);
+            }
+
+            return result;
+        };
+    }
+
     return function memoized(...args) {
         evictExpired();
 
