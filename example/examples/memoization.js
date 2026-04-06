@@ -1,19 +1,21 @@
-const { createMemoizedFunction } = require('../src/memoization-core');
+const { createMemoizedFunction } = require('generators-lib');
 
-// Приклад 1: Мемоізація чисел Фібоначчі
+
 console.log('Приклад 1: Фібоначчі');
 const fib = (n) => n <= 1 ? n : fib(n - 1) + fib(n - 2);
-const memoFib = createMemoizedFunction(fib, { maxSize: 50 });
 
-console.time('Непаралізована Фібоначчі(35)');
-console.log('Результат:', fib(35));
-console.timeEnd('Непаралізована Фібоначчі(35)');
+const fibMemo = (n) => n <= 1 ? n : memoFib(n - 1) + memoFib(n - 2);
+const memoFib = createMemoizedFunction(fibMemo, { maxSize: 50 });
 
-console.time('Мемоізована Фібоначчі(35)');
-console.log('Результат:', memoFib(35));
-console.timeEnd('Мемоізована Фібоначчі(35)');
+console.time('Без мемоізації (15)');
+console.log('Результат:', fib(15));
+console.timeEnd('Без мемоізації (15)');
 
-// Приклад 2: Дорогі обчислення з LRU
+console.time('З мемоізацією (15)');
+console.log('Результат:', memoFib(15));
+console.timeEnd('З мемоізацією (15)');
+
+
 console.log('\nПриклад 2: Дорогі обчислення');
 const expensiveCalc = (x, y) => {
     let result = 0;
@@ -36,7 +38,6 @@ console.time('Другий виклик (з кешу)');
 console.log('Результат:', memoCalc(5, 10));
 console.timeEnd('Другий виклик (з кешу)');
 
-// Приклад 3: LFU з TTL
 console.log('\nПриклад 3: LFU з TTL');
 const memoLFU = createMemoizedFunction(expensiveCalc, { 
     maxSize: 5,
@@ -49,3 +50,30 @@ console.log('Очікування 2.5 секунди...');
 setTimeout(() => {
     console.log('Результат (повинен переобчислити):', memoLFU(3, 4));
 }, 2500);
+
+
+console.log('\nПриклад 4: Асинхронна функція');
+const asyncFetch = async (url) => {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve({ url, data: 'response' });
+        }, 500);
+    });
+};
+
+const memoAsync = createMemoizedFunction(asyncFetch, { 
+    maxSize: 10,
+    evictionPolicy: 'LRU'
+});
+
+(async () => {
+    console.time('Перший асинхронний виклик');
+    const result1 = await memoAsync('https://api.example.com');
+    console.log('Результат:', result1);
+    console.timeEnd('Перший асинхронний виклик');
+
+    console.time('Другий асинхронний виклик (з кешу)');
+    const result2 = await memoAsync('https://api.example.com');
+    console.log('Результат:', result2);
+    console.timeEnd('Другий асинхронний виклик (з кешу)');
+})();
