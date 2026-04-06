@@ -5,79 +5,91 @@ class BiDirectionalPriorityQueue {
 
     enqueue(item, priority = 0) {
         const entry = { item, priority, timestamp: Date.now() };
-        let added = false;
+        let inserted = false;
 
         for (let i = 0; i < this.items.length; i++) {
             if (entry.priority > this.items[i].priority) {
                 this.items.splice(i, 0, entry);
-                added = true;
+                inserted = true;
                 break;
             }
         }
 
-        if (!added) {
+        if (!inserted) {
             this.items.push(entry);
         }
     }
 
     dequeueHighest() {
-        return this.items.length > 0 ? this.items.shift().item : null;
+        if (this.items.length === 0) return null;
+        return this.items.shift().item;
     }
 
     dequeueLowest() {
-        return this.items.length > 0 ? this.items.pop().item : null;
+        if (this.items.length === 0) return null;
+        return this.items.pop().item;
     }
 
     dequeueOldest() {
         if (this.items.length === 0) return null;
-        let oldest = 0;
+        
+        let idx = 0;
         for (let i = 1; i < this.items.length; i++) {
-            if (this.items[i].timestamp < this.items[oldest].timestamp) {
-                oldest = i;
+            if (this.items[i].timestamp < this.items[idx].timestamp) {
+                idx = i;
             }
         }
-        return this.items.splice(oldest, 1)[0].item;
+        
+        return this.items.splice(idx, 1)[0].item;
     }
 
     dequeueNewest() {
         if (this.items.length === 0) return null;
-        let newest = 0;
+        
+        let idx = 0;
         for (let i = 1; i < this.items.length; i++) {
-            if (this.items[i].timestamp > this.items[newest].timestamp) {
-                newest = i;
+            if (this.items[i].timestamp > this.items[idx].timestamp) {
+                idx = i;
             }
         }
-        return this.items.splice(newest, 1)[0].item;
+        
+        return this.items.splice(idx, 1)[0].item;
     }
 
     peekHighest() {
-        return this.items.length > 0 ? this.items[0].item : null;
+        if (this.items.length === 0) return null;
+        return this.items[0].item;
     }
 
     peekLowest() {
-        return this.items.length > 0 ? this.items[this.items.length - 1].item : null;
+        if (this.items.length === 0) return null;
+        return this.items[this.items.length - 1].item;
     }
 
     peekOldest() {
         if (this.items.length === 0) return null;
-        let oldest = 0;
+        
+        let idx = 0;
         for (let i = 1; i < this.items.length; i++) {
-            if (this.items[i].timestamp < this.items[oldest].timestamp) {
-                oldest = i;
+            if (this.items[i].timestamp < this.items[idx].timestamp) {
+                idx = i;
             }
         }
-        return this.items[oldest].item;
+        
+        return this.items[idx].item;
     }
 
     peekNewest() {
         if (this.items.length === 0) return null;
-        let newest = 0;
+        
+        let idx = 0;
         for (let i = 1; i < this.items.length; i++) {
-            if (this.items[i].timestamp > this.items[newest].timestamp) {
-                newest = i;
+            if (this.items[i].timestamp > this.items[idx].timestamp) {
+                idx = i;
             }
         }
-        return this.items[newest].item;
+        
+        return this.items[idx].item;
     }
 
     isEmpty() {
