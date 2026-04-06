@@ -7,7 +7,8 @@
     "start": "node index.js",
     "demo:integers": "node examples/random-integers.js",
     "demo:floats": "node examples/random-floats.js",
-    "demo:custom": "node examples/custom-processing.js"
+    "demo:custom": "node examples/custom-processing.js",
+    "demo:async": "node examples/async-map.js"
   },
   "author": "veronikapaschenkor29-png",
   "license": "MIT",
