@@ -1,6 +1,5 @@
-const { BiDirectionalPriorityQueue } = require('../src/priority-queue');
+const { BiDirectionalPriorityQueue } = require('generators-lib');
 
-// Приклад 1: Базові операції
 console.log('Приклад 1: Базові операції з чергою');
 const queue = new BiDirectionalPriorityQueue();
 
@@ -17,7 +16,6 @@ console.log('\nВилучення за пріоритетом:');
 console.log('Найвищий:', queue.dequeueHighest());
 console.log('Найнищий:', queue.dequeueLowest());
 
-// Приклад 2: Обробка запитів за пріоритетом
 console.log('\nПриклад 2: Обробка запитів');
 const requestQueue = new BiDirectionalPriorityQueue();
 
@@ -31,7 +29,6 @@ while (!requestQueue.isEmpty()) {
     console.log(`Обробка ${request.type} запит (ID: ${request.id})`);
 }
 
-// Приклад 3: Часова послідовність
 console.log('\nПриклад 3: Часова послідовність');
 const timeQueue = new BiDirectionalPriorityQueue();
 
