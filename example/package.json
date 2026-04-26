@@ -2,13 +2,18 @@
   "name": "generators-example",
   "version": "1.0.0",
   "description": "Example project demonstrating usage of generators-lib",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "demo:integers": "node examples/random-integers.js",
-    "demo:floats": "node examples/random-floats.js",
-    "demo:custom": "node examples/custom-processing.js",
-    "demo:async": "node examples/async-map.js"
+    "lab1": "node examples/lab1.js",
+    "lab3": "node examples/lab3.js",
+    "lab4": "node examples/lab4.js",
+    "lab5": "node examples/lab5.js",
+    "lab6": "node examples/lab6.js",
+    "lab7": "node examples/lab7.js",
+    "lab8": "node examples/lab8.js",
+    "lab9": "node examples/lab9.js"
   },
   "author": "veronikapaschenkor29-png",
   "license": "MIT",
@@ -16,3 +21,4 @@
     "generators-lib": "file:../generators-lib"
   }
 }
+
