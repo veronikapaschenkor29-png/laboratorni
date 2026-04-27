@@ -1,4 +1,4 @@
-const { randomNumberGenerator, timeoutIterator } = require('generators-lib');
+import { randomNumberGenerator, timeoutIterator } from 'generators-lib';
 
 async function main() {
     console.log('='.repeat(70));
